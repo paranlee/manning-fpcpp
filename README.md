@@ -51,6 +51,7 @@ C++ 함수형 프로그래밍은 각 장이 이전 장에서 배운 개념을 �
 // ranges example
 // - https://en.cppreference.com/w/cpp/ranges
 
+// // g++ -g -std=c++20 -Wall -o test test.cpp
 #include <iostream>
 #include <ranges>
  
@@ -69,5 +70,32 @@ int main()
     // a traditional "functional" composing syntax:
     for (int i : std::views::transform(std::views::filter(ints, even), square))
         std::cout << i << ' ';
+}
+```
+
+```C++
+// g++ -g -std=c++20 -Wall -o test test.cpp
+#include <iostream>
+#include <ranges>
+
+int main()
+{
+	int arr[]{ 1, 2, 3, 4, 5 };
+	int product1 = 1;
+	for (auto i : arr | std::views::reverse)
+	{
+		product1 *= i;
+		std::cout << "product1 *= i : "  <<  product1 << " *= " << i << '\n';
+	}
+	int product2 = 1;
+	for (auto i : std::views::reverse(arr))
+	{
+		product2 *= i;
+		std::cout << "product2 *= i : "  <<  product2 << " *= " << i << '\n';
+	}
+
+	std::cout << "product1 + product2: " << product1 + product2 << '\n';
+
+	return 0;
 }
 ```

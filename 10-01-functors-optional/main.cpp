@@ -4,7 +4,6 @@
 #include <vector>
 #include <algorithm>
 
-#include <ranges>
 // #include <range/v3/view/transform.hpp>
 // #include <range/v3/view/filter.hpp>
 
@@ -12,6 +11,7 @@
 // as if it was a proper range (as in range-v3 library).
 // If the optional is empty, the range is empty. If it contains
 // a value, it generates a range that contains a single value.
+#include <ranges>
 
 template <typename T1, typename F>
 auto transform(const std::optional<T1> &opt, F f)
@@ -26,7 +26,7 @@ auto transform(const std::optional<T1> &opt, F f)
 
 template <typename T>
 class optional_range
-    : public ranges::v3::view_facade<optional_range<T>> {
+    : public ranges::view_facade<optional_range<T>> {
 
 public:
     optional_range() = default;
@@ -36,10 +36,10 @@ public:
     }
 
 private:
-    friend ranges::v3::range_access;
+    friend ranges::range_access;
     const T *m_opt_ptr;
     const T & read() const { return *m_opt_ptr; }
-    bool equal(ranges::v3::default_sentinel) const {
+    bool equal(ranges::default_sentinel) const {
         return m_opt_ptr == nullptr;
     }
     void next() { m_opt_ptr = nullptr; }
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     transform(i, isalnum);
 
-    auto r = as_range(i) | ranges::v3::view::transform(isalnum);
+    auto r = as_range(i) | ranges::view::transform(isalnum);
 
     return 0;
 }

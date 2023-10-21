@@ -69,17 +69,15 @@ expected_bookmark bookmark_from_json(const json& data)
 
 TEST_CASE("Counting newlines in a string", "[program-logic]")
 {
-    using namespace ranges::v3;
-
     // We are lifting the transform and filter functions
     // to work on the with_expected_reply<T> type that adds the
     // socket information to the given value so that we
     // can reply to the client
     auto transform = [](auto f) {
-            return view::transform(lift_with_expected_reply(f));
+            return ranges::view::transform(lift_with_expected_reply(f));
         };
     auto filter = [](auto f) {
-            return view::filter(apply_with_expected_reply(f));
+            return ranges::view::filter(apply_with_expected_reply(f));
         };
 
     // The sink concept does not exist for ranges,
@@ -87,7 +85,7 @@ TEST_CASE("Counting newlines in a string", "[program-logic]")
     // function f to be evaluated for all values
     // in the range that we are sending to the sink
     auto sink = [](auto f) {
-            return view::transform([f] (auto &&ws) {
+            return ranges::view::transform([f] (auto &&ws) {
                     f(ws);
                     return ws.expected_reply;
                 });

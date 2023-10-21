@@ -8,8 +8,8 @@
 #include <forward_list>
 #include <iostream>
 
-#include <range/v3/view.hpp>
-using namespace ranges::v3;
+// #include <range/v3/view.hpp>
+#include <ranges>
 
 #include <cstdlib>
 #include <time.h>
@@ -58,7 +58,7 @@ std::string generate_test_case(int line_count)
 
 auto generate_test_cases(int line_count)
 {
-    return view::generate(std::bind(generate_test_case, line_count));
+    return ranges::view::generate(std::bind(generate_test_case, line_count));
 }
 
 TEST_CASE("Checling line counts for automatically generated tests", "[counting_lines]")
@@ -70,7 +70,7 @@ TEST_CASE("Checling line counts for automatically generated tests", "[counting_l
 
     for (int line_count = 0; line_count < MAX_NEWLINE_COUNT ; ++line_count) {
         for (const auto& collection: generate_test_cases(line_count)
-                                     | view::take(TEST_CASES_PER_LINE_COUNT)) {
+                                     | ranges::view::take(TEST_CASES_PER_LINE_COUNT)) {
             REQUIRE(count_lines(begin(collection), end(collection)) == line_count);
         }
     }

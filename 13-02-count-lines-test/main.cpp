@@ -8,8 +8,8 @@
 #include <forward_list>
 #include <iostream>
 
-#include <range/v3/view.hpp>
-using namespace ranges::v3;
+// #include <range/v3/view.hpp>
+#include <ranges>
 
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
@@ -50,7 +50,7 @@ TEST_CASE("Counting newlines in a list", "[counting_lines]")
 TEST_CASE("Counting newlines in a range", "[counting_lines]")
 {
     std::string s = "Hello\nWorld\n";
-    const auto r = s | view::transform([] (char c) { return toupper(c); });
+    const auto r = s | ranges::view::transform([] (char c) { return toupper(c); });
 
     REQUIRE(count_lines(begin(r), end(r)) == 2);
 }
