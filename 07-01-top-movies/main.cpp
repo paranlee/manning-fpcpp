@@ -3,14 +3,16 @@
 #include <string>
 #include <vector>
 
-// https://en.cppreference.com/w/cpp/ranges
-#include <ranges>
 // #include <range/v3/view.hpp>
 // #include <range/v3/action.hpp>
 // #include <range/v3/istream_range.hpp>
 // #include <range/v3/to_container.hpp>
 
+// https://en.cppreference.com/w/cpp/ranges
+#include <ranges>
+
 // using namespace ranges;
+using namespace std;
 
 template <typename T>
 class err;
@@ -18,18 +20,19 @@ class err;
 template <typename Range>
 void write_top_10(const Range& xs)
 {
+    // https://en.cppreference.com/w/cpp/ranges/zip_view
     auto items =
         // Assigning the index to each of the movies.
         // view::ints(1) gives us an infinite range of integers
         // starting with 1. Zipping it with xs will give us
         // a range of pairs. The number of items in this range
         // will be the size of xs.
-        ranges::view::zip(xs, ranges::view::ints(1))
-            | ranges::view::transform([] (const auto& pair) {
+        ranges::views::zip(xs, std::views::iota(1))
+            | ranges::views::transform([] (const auto& pair) {
                     return std::to_string(pair.second) +
                            " " + pair.first;
             })
-            | view::take(10);
+            | ranges::views::take(10);
 
     for (const auto& item: items) {
         std::cout << item << std::endl;
